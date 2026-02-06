@@ -1,9 +1,16 @@
 import express from "express";
+
+import dotenv from "dotenv";
+
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
+
 import hbs from "hbs";
 
+dotenv.config();
 const app = express();
+
+const PORT = process.env.PORT || 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -39,6 +46,13 @@ app.get("/help", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
+app.use((req, res) => {
+  res.status(404).render("404", {
+    title: "Page not found",
+    name: "Vladimer Gabisonia",
+  });
+});
+
+app.listen(PORT, () => {
   console.log("Server is running");
 });
