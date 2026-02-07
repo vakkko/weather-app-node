@@ -27,7 +27,7 @@ app.use(express.static(publicDir));
 
 app.get("/", (req, res) => {
   res.render("index", {
-    title: "Weather app",
+    title: "Weather",
     name: "Vladimer Gabisonia",
   });
 });
@@ -41,14 +41,16 @@ app.get("/about", (req, res) => {
 
 app.get("/help", (req, res) => {
   res.render("help", {
-    title: "Help page",
+    title: "Help",
+    helpText: "This is some helpful text",
     name: "Vladimer Gabisonia",
   });
 });
 
 app.use((req, res) => {
   res.status(404).render("404", {
-    title: "Page not found",
+    title: "404",
+    errorMessage: "Page not found",
     name: "Vladimer Gabisonia",
   });
 });
