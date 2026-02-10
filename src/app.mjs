@@ -7,6 +7,9 @@ import { dirname, join } from "path";
 
 import hbs from "hbs";
 
+import { geocode } from "./utils/geocode.js";
+import { forecast } from "./utils/forecast.js";
+
 dotenv.config();
 const app = express();
 
@@ -44,6 +47,45 @@ app.get("/help", (req, res) => {
     title: "Help",
     helpText: "This is some helpful text",
     name: "Vladimer Gabisonia",
+  });
+});
+
+app.get("/weather", (req, res) => {
+  const address = req.query.address;
+  if (!address) {
+    res.send({
+      error: "You must provide an address",
+    });
+  }
+
+  geocode(address, (error, { latitude, longitude, location } = {}) => {
+    if (error) {
+      res.send({ error });
+    }
+
+    forecast(latitude, longitude, (error, forecastData) => {
+      if (error) {
+        return res.send({ error });
+      }
+
+      res.send({
+        forecast: forecastData,
+        location,
+        address,
+      });
+    });
+  });
+});
+
+app.get("/products", (req, res) => {
+  if (!req.query.search) {
+    return res.send({
+      error: "You must provide a search term",
+    });
+  }
+
+  res.send({
+    products: [],
   });
 });
 
