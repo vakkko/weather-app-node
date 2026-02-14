@@ -1,13 +1,14 @@
 import axios from "axios";
 
 export const forecast = (latitude, longitude, callBack) => {
+  const accessKey = process.env.ACCESS_KEY;
   axios
     .get(
-      `https://api.weatherstack.com/current?access_key=cc582813c8d710b4b90e5195f31a7223&query=${latitude},${longitude}`,
+      `https://api.weatherstack.com/current?access_key=${accessKey}&query=${latitude},${longitude}`,
     )
     .then(({ data }) => {
       if (!data.location.name) {
-        callBack("Location is incorrect", undefined);
+        return callBack("Location is incorrect", undefined);
       }
       const currentWeatherObj = data.current;
       const [weatherDescription] = currentWeatherObj.weather_descriptions;
@@ -16,7 +17,7 @@ export const forecast = (latitude, longitude, callBack) => {
 
       callBack(
         undefined,
-        `Weather is ${weatherDescription}. It is currently ${temperature} degree, but feels like ${feelsLike} degree`,
+        `Weather is ${weatherDescription}. It is currently ${temperature} degree, feels like ${feelsLike} degree`,
       );
     })
     .catch((err) => {

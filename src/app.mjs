@@ -53,14 +53,14 @@ app.get("/help", (req, res) => {
 app.get("/weather", (req, res) => {
   const address = req.query.address;
   if (!address) {
-    res.send({
+    return res.send({
       error: "You must provide an address",
     });
   }
 
   geocode(address, (error, { latitude, longitude, location } = {}) => {
     if (error) {
-      res.send({ error });
+      return res.send({ error });
     }
 
     forecast(latitude, longitude, (error, forecastData) => {
