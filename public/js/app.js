@@ -17,6 +17,10 @@ weatherForm.addEventListener("submit", (e) => {
       return response.json();
     })
     .then((data) => {
+      if (data.error) {
+        return (messageOne.textContent = data.error.message);
+      }
+
       messageOne.textContent = data.forecast;
       messageTwo.textContent = data.location;
     })
