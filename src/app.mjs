@@ -7,6 +7,8 @@ import { dirname, join } from "path";
 
 import hbs from "hbs";
 
+import cors from "cors";
+
 import { geocode } from "./utils/geocode.js";
 import { forecast } from "./utils/forecast.js";
 
@@ -14,6 +16,15 @@ dotenv.config();
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
+const corsOption = {
+  credentials: true,
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5000",
+    "https://weather-app-node-lso4.onrender.com",
+  ],
+};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,6 +38,7 @@ app.set("view engine", "hbs");
 hbs.registerPartials(partialsDir);
 
 app.use(express.static(publicDir));
+app.use(cors(corsOption));
 
 app.get("/", (req, res) => {
   res.render("index", {
