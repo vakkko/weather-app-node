@@ -11,7 +11,9 @@ weatherForm.addEventListener("submit", (e) => {
 
   const searchValue = search.value;
 
-  fetch(`http://localhost:5000/weather?address=${searchValue}`)
+  fetch(
+    `https://weather-app-node-lso4.onrender.com/weather?address=${searchValue}`,
+  )
     .then((response) => {
       if (!response.ok) throw new Error("Something went wrong");
       return response.json();

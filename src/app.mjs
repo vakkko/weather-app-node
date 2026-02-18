@@ -37,8 +37,8 @@ app.set("views", viewsDir);
 app.set("view engine", "hbs");
 hbs.registerPartials(partialsDir);
 
-app.use(express.static(publicDir));
 app.use(cors(corsOption));
+app.use(express.static(publicDir));
 
 app.get("/", (req, res) => {
   res.render("index", {
